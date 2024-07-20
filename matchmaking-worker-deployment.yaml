@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matchmaking-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchmaking-worker
+  template:
+    metadata:
+      labels:
+        app: matchmaking-worker
+    spec:
+      containers:
+      - name: matchmaking-worker
+        image: afabianoo/matchmaking-worker:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          subPath: appsettings.json
+      volumes:
+      - name: config-volume
+        configMap:
+          name: matchmaking-worker-config
