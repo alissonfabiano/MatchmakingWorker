@@ -2,11 +2,11 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: matchmaking-worker-config
-data:
+data:  
   RabbitMQ__Host: "rabbitmq"
   RabbitMQ__Port: "5672"
   RabbitMQ__UserName: "guest"
   RabbitMQ__Password: "guest"
   RabbitMQ__QueueName: "match-making"
-  Kubernetes__ServerUrl: "https://kubernetes.default.svc"
+  Kubernetes__ServerUrl: "https://host.docker.internal:6443"
   Kubernetes__Token: ""

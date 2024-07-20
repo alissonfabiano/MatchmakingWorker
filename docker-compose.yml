@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    build:
+      context: .
+      dockerfile: Dockerfile.RabbitMQ
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - matchmaking-network
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "-u", "guest:guest", "http://localhost:15672/api/healthchecks/node"]
+      interval: 5s
+      timeout: 200ms
+      retries: 5
+    restart: unless-stopped
+
+  matchmaking-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - RabbitMQ__Host=rabbitmq
+      - RabbitMQ__Port=5672
+      - RabbitMQ__UserName=guest
+      - RabbitMQ__Password=guest
+      - RabbitMQ__QueueName=match-making
+    networks:
+      - matchmaking-network
+    restart: unless-stopped
+
+networks:
+  matchmaking-network:

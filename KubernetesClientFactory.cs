@@ -11,7 +11,18 @@ public class KubernetesClientFactory
 
     public Kubernetes CreateKubernetesClient()
     {
-        var config = KubernetesClientConfiguration.BuildConfigFromConfigFile();
+        var config = KubernetesClientConfiguration.BuildConfigFromConfigFile("/root/.kube/config");
         return new Kubernetes(config);
+
+        // var serverUrl = _configuration["Kubernetes:ServerUrl"];
+        // var token = _configuration["Kubernetes:Token"];
+
+        // var config = new KubernetesClientConfiguration
+        // {
+        //     Host = serverUrl,
+        //     AccessToken = token
+        // };
+
+        // return new Kubernetes(config);
     }
 }

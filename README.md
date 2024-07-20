@@ -1,0 +1,1 @@
+cp /Users/alissonfabiano/.kube/config ./kube
